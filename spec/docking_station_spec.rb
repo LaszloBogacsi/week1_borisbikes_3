@@ -27,7 +27,8 @@ describe DockingStation do
   it "reads docked bike" do
     station1 = DockingStation.new
     customer_bike = Bike.new
-    expect(station1.dock(customer_bike)).to eq(customer_bike)
+    station1.dock(customer_bike)
+    expect(station1.bikes).to eq([customer_bike])
   end
 
   it 'tests if there is an error thrown' do
@@ -38,5 +39,6 @@ describe DockingStation do
     bike = Bike.new
     expect { subject.dock(bike) }.to raise_error("Station is full")
   end
+
 
 end
