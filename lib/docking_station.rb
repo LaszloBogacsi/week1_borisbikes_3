@@ -9,11 +9,8 @@ class DockingStation
   end
 
   def dock(customer_bike)
+    fail("Station is full") while @bike
     @bike = customer_bike
-  end
-
-  def dock(bike)
-    @bike = bike
   end
 
 end
