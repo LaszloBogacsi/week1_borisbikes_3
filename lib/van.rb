@@ -2,9 +2,8 @@
 
 class Van
 
-  def take_bikes(station_id)
-    @broken_bikes = station_id.broken_bikes
-    station_id.broken_bikes = []
+  def take_bikes(location)
+    @transport_bikes = location.bikes_to_van
   end
 
 

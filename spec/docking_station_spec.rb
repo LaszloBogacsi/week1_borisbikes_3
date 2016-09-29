@@ -39,6 +39,11 @@ describe DockingStation do
     it 'creates new bike when release_bike' do
       expect(Bike.new).to be_instance_of(Bike)
     end
+
+    it 'returns all broken bikes for van use' do
+      @station1.dock(@broken_bike)
+      expect(@station1.bikes_to_van).to eq([@broken_bike])
+    end
   end
 
   describe 'Bike functionality' do
