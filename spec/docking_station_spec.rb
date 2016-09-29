@@ -6,8 +6,9 @@ describe DockingStation do
   before :each do
     @station1 = DockingStation.new
     @bike = double(:bike)
-    @broken_bike = Bike.new(false)
-
+    allow(@bike).to receive(:working?).and_return(true)
+    @broken_bike = double(:broken_bike)
+    allow(@broken_bike).to receive(:working?).and_return(false)
   end
 
   describe 'Docking bikes' do
