@@ -1,43 +1,40 @@
 require 'docking_station'
+require 'bike'
 
 describe DockingStation do
 
+  before :each do
+    @station1 = DockingStation.new
+    @bike = Bike.new
+  end
+
   it 'releases bike' do
-    station1 = DockingStation.new
-    expect(station1).to respond_to(:release_bike)
+    expect(@station1).to respond_to(:release_bike)
   end
 
   it 'creates new bike when release_bike' do
-    skip ('release_bike method is not producing new bikes')
-    station1 = DockingStation.new
-    expect(station1.release_bike).to be_instance_of(Bike)
+    expect(@bike).to be_instance_of(Bike)
   end
 
   it 'tests if bike is working' do
-    skip ('release_bike method is not producing new bikes')
-    bike1 = subject.release_bike
-    expect(bike1).to be_working
+    expect(@bike).to be_working
   end
 
   it 'docks a bike' do
-    station1 = DockingStation.new
-    expect(station1).to respond_to(:dock).with(1).argument
+    expect(@station1).to respond_to(:dock).with(1).argument
   end
 
   it "reads docked bike" do
-    station1 = DockingStation.new
-    customer_bike = Bike.new
-    station1.dock(customer_bike)
-    expect(station1.bikes).to eq([customer_bike])
+    @station1.dock(@bike)
+    expect(@station1.bikes).to eq([@bike])
   end
 
   it 'tests if there is an error thrown' do
-    expect { subject.release_bike }.to raise_error("No more bikes")
+    expect { @station1.release_bike }.to raise_error("No more bikes")
   end
 
   it 'raises error when the station is full' do
-    bike = Bike.new
-    expect { subject.dock(bike) }.to raise_error("Station is full")
+    expect {21.times{ @station1.dock(@bike) }}.to raise_error("Station is full")
   end
 
 
