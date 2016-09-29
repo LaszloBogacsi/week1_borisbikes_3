@@ -30,7 +30,6 @@ describe DockingStation do
     end
   end
 
-
   describe 'Bike functionality' do
     it 'tests if bike is working' do
       expect(@bike).to be_working
