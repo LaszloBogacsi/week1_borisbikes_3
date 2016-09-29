@@ -11,38 +11,52 @@ describe DockingStation do
     allow(@broken_bike).to receive(:working?).and_return(false)
   end
 
-  describe 'Docking bikes' do
-    it 'docks a working bike' do
-      expect(@station1.dock(@bike)).to eq([@bike])
+  describe 'transfer of bikes' do
+
+    describe 'Docking bikes' do
+      it 'docks a working bike' do
+        expect(@station1.dock(@bike)).to eq([@bike])
+      end
+
+      it 'docks a broken bike' do
+        expect(@station1.dock(@broken_bike)).to eq([@broken_bike])
+      end
+
+      it "reads docked bike" do
+        @station1.dock(@bike)
+        expect(@station1.bikes).to eq([@bike])
+      end
+
+      it "reports broken bikes" do
+        @station1.dock(@broken_bike)
+        expect(@station1.broken_bikes).to eq([@broken_bike])
+      end
     end
 
-    it 'docks a broken bike' do
-      expect(@station1.dock(@broken_bike)).to eq([@broken_bike])
+    describe 'Releasing bikes' do
+      it 'releases bike' do
+        expect(@station1).to respond_to(:release_bike)
+      end
+
+      it 'creates new bike when release_bike' do
+        expect(Bike.new).to be_instance_of(Bike)
+      end
+
+      it 'returns all broken bikes for van use' do
+        @station1.dock(@broken_bike)
+        expect(@station1.bikes_to_van).to eq([@broken_bike])
+      end
     end
 
-    it "reads docked bike" do
-      @station1.dock(@bike)
-      expect(@station1.bikes).to eq([@bike])
-    end
+    describe 'van transfer' do
+      it 'sends bikes to van' do
+        @station1.dock(@broken_bike)
+        expect(@station1.bikes_to_van).to eq([@broken_bike])
+      end
 
-    it "reports broken bikes" do
-      @station1.dock(@broken_bike)
-      expect(@station1.broken_bikes).to eq([@broken_bike])
-    end
-  end
-
-  describe 'Releasing bikes' do
-    it 'releases bike' do
-      expect(@station1).to respond_to(:release_bike)
-    end
-
-    it 'creates new bike when release_bike' do
-      expect(Bike.new).to be_instance_of(Bike)
-    end
-
-    it 'returns all broken bikes for van use' do
-      @station1.dock(@broken_bike)
-      expect(@station1.bikes_to_van).to eq([@broken_bike])
+      it 'receives bikes from van' do
+        expect(@station1.bikes_from_van(['bike1', 'bike2.1', 'bike3.1'])).to eq(@station1.bikes)
+      end
     end
   end
 
@@ -71,6 +85,4 @@ describe DockingStation do
       expect(DockingStation.new(35).capacity).to eq 35
     end
   end
-
-
 end

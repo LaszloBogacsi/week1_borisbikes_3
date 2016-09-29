@@ -32,6 +32,10 @@ class DockingStation
     return temp_broken_bikes
   end
 
+  def bikes_from_van(incoming_bikes)
+    @bikes << incoming_bikes
+  end
+
   private
     def full?
       (@bikes + @broken_bikes).size >= DEFAULT_CAPACITY ? true : false
