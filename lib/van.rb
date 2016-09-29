@@ -6,5 +6,8 @@ class Van
     @transport_bikes = location.bikes_to_van
   end
 
+  def dropoff(location)
+    location.receive_fixed_bikes(@transport_bikes)
+  end
 
 end
