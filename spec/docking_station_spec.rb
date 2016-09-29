@@ -6,6 +6,7 @@ describe DockingStation do
   before :each do
     @station1 = DockingStation.new
     @bike = Bike.new
+    @broken_bike = Bike.new(false)
 
   end
 
@@ -17,6 +18,11 @@ describe DockingStation do
     it "reads docked bike" do
       @station1.dock(@bike)
       expect(@station1.bikes).to eq([@bike])
+    end
+
+    it "reports broken bikes" do
+      @station1.dock(@broken_bike)
+      expect(@station1.alerts).to eq([@broken_bike])
     end
   end
 
