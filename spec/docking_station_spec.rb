@@ -5,14 +5,18 @@ describe DockingStation do
 
   before :each do
     @station1 = DockingStation.new
-    @bike = Bike.new
+    @bike = double(:bike)
     @broken_bike = Bike.new(false)
 
   end
 
   describe 'Docking bikes' do
-    it 'docks a bike' do
-      expect(@station1).to respond_to(:dock).with(1).argument
+    it 'docks a working bike' do
+      expect(@station1.dock(@bike)).to eq([@bike])
+    end
+
+    it 'docks a broken bike' do
+      expect(@station1.dock(@broken_bike)).to eq([@broken_bike])
     end
 
     it "reads docked bike" do
@@ -22,7 +26,7 @@ describe DockingStation do
 
     it "reports broken bikes" do
       @station1.dock(@broken_bike)
-      expect(@station1.alerts).to eq([@broken_bike])
+      expect(@station1.broken_bikes).to eq([@broken_bike])
     end
   end
 
@@ -32,7 +36,7 @@ describe DockingStation do
     end
 
     it 'creates new bike when release_bike' do
-      expect(@bike).to be_instance_of(Bike)
+      expect(Bike.new).to be_instance_of(Bike)
     end
   end
 
@@ -44,7 +48,7 @@ describe DockingStation do
 
   describe 'error handling' do
     it 'tests if there is an error thrown' do
-      expect { @station1.release_bike }.to raise_error("No more bikes")
+      expect { @station1.release_bike }.to raise_error("No more working bikes")
     end
 
     it 'raises error when the station is full' do
