@@ -6,6 +6,7 @@ describe DockingStation do
   before :each do
     @station1 = DockingStation.new
     @bike = Bike.new
+
   end
 
   it 'releases bike' do
@@ -34,7 +35,7 @@ describe DockingStation do
   end
 
   it 'raises error when the station is full' do
-    expect {21.times{ @station1.dock(@bike) }}.to raise_error("Station is full")
+    expect {(DockingStation::DEFAULT_CAPACITY + 1).times{ @station1.dock(@bike) }}.to raise_error("Station is full")
   end
 
 
