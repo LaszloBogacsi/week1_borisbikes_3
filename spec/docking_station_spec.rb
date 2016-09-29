@@ -9,33 +9,42 @@ describe DockingStation do
 
   end
 
-  it 'releases bike' do
-    expect(@station1).to respond_to(:release_bike)
+  describe 'Docking bikes' do
+    it 'docks a bike' do
+      expect(@station1).to respond_to(:dock).with(1).argument
+    end
+
+    it "reads docked bike" do
+      @station1.dock(@bike)
+      expect(@station1.bikes).to eq([@bike])
+    end
   end
 
-  it 'creates new bike when release_bike' do
-    expect(@bike).to be_instance_of(Bike)
+  describe 'Releasing bikes' do
+    it 'releases bike' do
+      expect(@station1).to respond_to(:release_bike)
+    end
+
+    it 'creates new bike when release_bike' do
+      expect(@bike).to be_instance_of(Bike)
+    end
   end
 
-  it 'tests if bike is working' do
-    expect(@bike).to be_working
+
+  describe 'Bike functionality' do
+    it 'tests if bike is working' do
+      expect(@bike).to be_working
+    end
   end
 
-  it 'docks a bike' do
-    expect(@station1).to respond_to(:dock).with(1).argument
-  end
+  describe 'error handling' do
+    it 'tests if there is an error thrown' do
+      expect { @station1.release_bike }.to raise_error("No more bikes")
+    end
 
-  it "reads docked bike" do
-    @station1.dock(@bike)
-    expect(@station1.bikes).to eq([@bike])
-  end
-
-  it 'tests if there is an error thrown' do
-    expect { @station1.release_bike }.to raise_error("No more bikes")
-  end
-
-  it 'raises error when the station is full' do
-    expect {(DockingStation::DEFAULT_CAPACITY + 1).times{ @station1.dock(@bike) }}.to raise_error("Station is full")
+    it 'raises error when the station is full' do
+      expect {(DockingStation::DEFAULT_CAPACITY + 1).times{ @station1.dock(@bike) }}.to raise_error("Station is full")
+    end
   end
 
   describe 'setting DEFAULT_CAPACITY' do
@@ -47,4 +56,6 @@ describe DockingStation do
       expect(DockingStation.new(35).capacity).to eq 35
     end
   end
+
+
 end
