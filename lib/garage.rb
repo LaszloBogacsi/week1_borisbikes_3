@@ -1,31 +1,33 @@
 class Garage
-  attr_writer :fixed_bikes
+  #contains functions to accept, fix and send off 'bikes'
+
+  #accessors to allow manipulation of bike arrays, to enable easier testing
+  attr_accessor :fixed_bikes
   attr_accessor :bikes_to_fix
 
   def initialize
+    #creates empty arrays for later use
     @fixed_bikes = []
     @bikes_to_fix = []
   end
 
   def bikes_from_van(incoming_bikes)
-    @bikes_to_fix = incoming_bikes
+    #accepts bikes from van
+    @bikes_to_fix = incoming_bikes  #returns array of bikes
   end
 
   def bikes_to_van
-    temp_fixed_bikes = @fixed_bikes
-    @fixed_bikes = []
-    temp_fixed_bikes
+    #sends fixed bikes to van
+    temp_fixed_bikes = @fixed_bikes  #temporary variable
+    @fixed_bikes = []  #clears array
+    temp_fixed_bikes  #returns contents of temporary variable
   end
 
-  def fix_bike(bike_to_fix)
-    bike_to_fix.working = true
-  end
-
-  def process_bikes
-    @bikes_to_fix.map {|x|
-    fix_bike(x)
-    @fixed_bikes << x
+  def fix_bikes
+    #fixes bikes, iterates over each instance
+    @bikes_to_fix.map {|bike_in_progress|
+      bike_in_progress.working = true  #changes value of bike.working to true
+      @fixed_bikes << bike_in_progress  #appends to array of fixed bikes
     }
-    @fixed_bikes
   end
 end
